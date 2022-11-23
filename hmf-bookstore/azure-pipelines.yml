@@ -1,0 +1,74 @@
+trigger:
+  - master
+variables:
+  - group: dha-dhp-artifact
+  - group: dhp-infra-admin-sp
+  - name: isMaster
+    value: $[eq(variables['Build.SourceBranch'], 'refs/heads/master')]
+parameters:
+  - name: imageName
+    displayName: Image Name
+    type: string
+    default: hmf-template
+  - name: imageVersion
+    displayName: Image Version
+    type: string
+    default: 0.0.1
+pool:
+  name: Linux-NextGen
+  demands:
+    - npm
+    - docker
+resources:
+  repositories:
+    - repository: templates
+      type: git
+      name: dhp-azure-templates
+      ref: node-template
+stages:
+  - stage: Validate
+    displayName: Validate PR
+    condition: eq(variables.isMaster, false)
+    jobs:
+      - job: CreateACRImage
+        steps:
+          - checkout: self
+            submodules: true
+          - task: UseNode@1
+            displayName: Install NodeJS
+            inputs:
+              version: '16.x'
+              checkLatest: true
+          - task: JFrog.jfrog-artifactory-vsts-extension.artifactory-npm.ArtifactoryNpm@2
+            displayName: Install NodeJS Dependencies
+            inputs:
+              command: ci
+              artifactoryService: mlp-artif-svc-acct
+              sourceRepo: customer-experience-management-npm-virtual
+          - task: Npm@1
+            displayName: Run Continuous Integration Routine
+            env:
+              version: $(Build.BuildId)
+            inputs:
+              command: custom
+              verbose: false
+              customCommand: run ci
+  - stage: Build
+    displayName: Build and push artifact and docker image
+    condition: eq(variables.isMaster, true)
+    jobs:
+      - template: uitemplates/nodetemplates/build.v2.0.0.yml@templates
+        parameters:
+          imageName: ${{parameters.imageName}}
+          imageVersion: ${{parameters.imageVersion}}
+          dist: /dist
+          glapi: false
+          dockerFile: Dockerfile
+  - stage: Twistlock
+    displayName: Run Twistlock Scan
+    condition: eq(dependencies.Build.result, 'Succeeded')
+    jobs:
+      - template: uitemplates/nodetemplates/twistlock.v1.0.0.yml@templates
+        parameters:
+          imageName: ${{parameters.imageName}}
+          imageVersion: ${{parameters.imageVersion}}

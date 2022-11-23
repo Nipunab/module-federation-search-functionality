@@ -1,0 +1,12 @@
+non-prod:
+  - name: '54d139b9-23ee-466d-ad7a-f98e0bd8bdf4'
+  - env-url: 'https://cagf.np-dt.humana.com/e/54d139b9-23ee-466d-ad7a-f98e0bd8bdf4'
+  - env-token-name: 'TOKEN_ENV_VAR'
+preprod:
+  - name: 'd3610855-748f-4365-9bb1-f036451fac27'
+  - env-url: 'https://dt.humana.com/e/d3610855-748f-4365-9bb1-f036451fac27'
+  - env-token-name: 'TOKEN_ENV_VAR'
+prod:
+  - name: 'd3610855-748f-4365-9bb1-f036451fac27'
+  - env-url: 'https://dt.humana.com/e/d3610855-748f-4365-9bb1-f036451fac27'
+  - env-token-name: 'TOKEN_ENV_VAR'

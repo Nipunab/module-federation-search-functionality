@@ -1,0 +1,62 @@
+{
+  "description": null,
+  "dimensionalRules": [],
+  "entitySelectorBasedRules": [],
+  "metadata": {
+    "clusterVersion": "1.224.83.20210902-162137",
+    "configurationVersions": [0]
+  },
+  "name": "{{.name}}",
+  "rules": [
+    {
+      "conditions": [
+        {
+          "comparisonInfo": {
+            "caseSensitive": false,
+            "negate": false,
+            "operator": "REGEX_MATCHES",
+            "type": "STRING",
+            "value": "{{.controllerName0}}"
+          },
+          "key": {
+            "attribute": "SERVICE_NAME",
+            "type": "STATIC"
+          }
+        },
+        {
+          "comparisonInfo": {
+            "caseSensitive": false,
+            "negate": false,
+            "operator": "BEGINS_WITH",
+            "type": "STRING",
+            "value": "{{.nameSpace}}"
+          },
+          "key": {
+            "attribute": "PROCESS_GROUP_PREDEFINED_METADATA",
+            "dynamicKey": "KUBERNETES_NAMESPACE",
+            "type": "PROCESS_PREDEFINED_METADATA_KEY"
+          }
+        },
+        {
+          "comparisonInfo": {
+            "caseSensitive": false,
+            "negate": false,
+            "operator": "BEGINS_WITH",
+            "type": "STRING",
+            "value": "{{.serviceName}}"
+          },
+          "key": {
+            "attribute": "CLOUD_APPLICATION_NAME",
+            "type": "STATIC"
+          }
+        }
+      ],
+      "enabled": true,
+      "propagationTypes": [
+        "SERVICE_TO_PROCESS_GROUP_LIKE",
+        "SERVICE_TO_HOST_LIKE"
+      ],
+      "type": "SERVICE"
+    }
+  ]
+}

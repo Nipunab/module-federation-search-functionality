@@ -1,0 +1,29 @@
+# put plat-dev environment specific variables used in templates
+appName: app-name-exp-dev
+
+keyVault: dhp-pisp-mgmt-es2-dev-kv
+secretproviderclassName: secretprovider-app-name-exp-dev
+secretName: app-name-secret-exp-dev
+secretEnv: test
+secretAssignedIdentity: 781f7513-9063-44ae-9946-53a002e96e06
+secretTenant: 56c62bbe-8598-4b85-9e51-1ca753fa50f2
+
+# your key that you want to access in the keyvault
+secretObjectsName:
+  objectName1: dhp-security-client-secret
+  objectName2: dhp-security-client-id
+
+secretRefName:
+  appsecretName1: KEY_CLIENT_SECRET
+  appsecretName2: KEY_CLIENT_ID
+
+env: DEV
+
+replicaCount: 1
+
+image:
+  name: app-name-exp-dev
+  repository: dhpnpepeplacr.azurecr.io/app-name
+
+autoscaling:
+  enabled: false

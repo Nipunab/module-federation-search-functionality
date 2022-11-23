@@ -1,0 +1,31 @@
+appName: override-me
+keyVault: override-me
+secretproviderclassName: override-me
+secretName: override-me
+secretEnv: override-me
+secretAssignedIdentity: override-me
+secretTenant: override-me
+secretObjectsName:
+  objectName1: override-me
+  objectName2: override-me
+secretRefName:
+  appsecretName1: override-me
+  appsecretName2: override-me
+env: override-me
+replicaCount: override-me
+image:
+  name: override-me
+  repository: override-me
+  pullPolicy: IfNotPresent
+  tag: 0.0.1
+containerPort: 3000
+autoscaling:
+  enabled: override-me
+  minReplicas: 1
+  maxReplicas: 5
+  targetCPUUtilizationPercentage: 80
+  targetMemoryUtilizationPercentage: 80
+service:
+  type: ClusterIP
+  port: 443
+  targetPort: 80

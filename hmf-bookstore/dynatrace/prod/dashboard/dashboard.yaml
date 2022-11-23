@@ -1,0 +1,7 @@
+config:
+  - app-name-dashboard-prod: app-name-exp-prod-dashboard.json
+app-name-dashboard-prod:
+  - name: app-name-dashboard-prod
+  - owner: <Owner-Id>
+  - managementZoneId: '/prod/management-zone/app-name-prod.id'
+  - managementZoneName: '/prod/management-zone/app-name-prod.name'

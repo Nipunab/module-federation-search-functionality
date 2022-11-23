@@ -1,0 +1,5 @@
+config:
+  - app-name: app-name.json
+app-name:
+  - name: app-name
+  - serviceName: app-name

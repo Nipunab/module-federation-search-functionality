@@ -1,0 +1,7 @@
+config:
+  - app-name-dashboard-preprod: app-name-exp-preprod-dashboard.json
+app-name-dashboard-preprod:
+  - name: app-name-dashboard-preprod
+  - owner: <Owner-Id>
+  - managementZoneId: '/preprod/management-zone/app-name-preprod.id'
+  - managementZoneName: '/preprod/management-zone/app-name-preprod.name'

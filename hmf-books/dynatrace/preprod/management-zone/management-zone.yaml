@@ -1,0 +1,5 @@
+config:
+  - app-name: exp-dt-poc.json
+app-name:
+  - name: app-name
+  - serviceName: app-name

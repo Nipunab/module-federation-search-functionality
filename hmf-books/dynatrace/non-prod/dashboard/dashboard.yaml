@@ -1,0 +1,7 @@
+config:
+  - app-name-exp-dev-dashboard: app-name-exp-dev-dashboard.json
+app-name-exp-dev-dashboard:
+  - name: app-name-exp-dev-dashboard
+  - owner: VAM6488
+  - managementZoneId: '/non-prod/management-zone/app-name.id'
+  - managementZoneName: '/non-prod/management-zone/app-name.name'

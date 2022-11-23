@@ -1,0 +1,99 @@
+trigger:
+  batch: true
+  branches:
+    include:
+      - master
+      - dev
+  paths:
+    include:
+      - /dynatrace
+
+variables:
+  - group: dhp-dynatrace-vg
+
+pool:
+  name: 'Linux-NextGen_DockerOnly'
+
+stages:
+  - stage: DynatraceNonProdDeployment
+    displayName: 'Dynatrace non-prod deployment'
+    jobs:
+      - job: DeployConfigurations
+        displayName: "Deploy dynatrace configurations"
+        steps:
+          - script: |
+              curl -L https://github.com/dynatrace-oss/dynatrace-monitoring-as-code/releases/download/v1.6.0/monaco-linux-amd64 -o monaco
+              chmod +x monaco
+              mv monaco /usr/local/bin/
+            displayName: Installing Monaco CLI
+            workingDirectory: 'dynatrace'
+          - script: |
+              monaco deploy --dry-run -e=environment.yaml -s=non-prod -p="non-prod"
+            env:
+              TOKEN_ENV_VAR: $(DT_API_TOKEN)
+              NEW_CLI: 1
+            displayName: Validate configurations
+            workingDirectory: 'dynatrace'
+          - script: |
+              monaco deploy -e=environment.yaml -s=non-prod -p="non-prod"
+            env:
+              TOKEN_ENV_VAR: $(DT_API_TOKEN)
+              NEW_CLI: 1
+            displayName: Deploy configurations
+            workingDirectory: 'dynatrace'
+  - stage: DynatracePreProdDeployment
+    displayName: 'Dynatrace preprod deployment'
+    jobs:
+      - job: DeployConfigurations
+        displayName: "Deploy dynatrace configurations"
+        steps:
+          - script: |
+              curl -L https://github.com/dynatrace-oss/dynatrace-monitoring-as-code/releases/download/v1.6.0/monaco-linux-amd64 -o monaco
+              chmod +x monaco
+              mv monaco /usr/local/bin/
+            displayName: Installing Monaco CLI
+            workingDirectory: 'dynatrace'
+          - script: |
+              monaco deploy --dry-run -e=environment.yaml -s=preprod -p="preprod"
+            env:
+              TOKEN_ENV_VAR: $(DT_API_TOKEN_PROD)
+              NEW_CLI: 1
+            displayName: Validate configurations
+            workingDirectory: 'dynatrace'
+          - script: |
+              monaco deploy -e=environment.yaml -s=preprod -p="preprod"
+            env:
+              TOKEN_ENV_VAR: $(DT_API_TOKEN_PROD)
+              NEW_CLI: 1
+            displayName: Deploy configurations
+            workingDirectory: 'dynatrace'
+  - stage: DynatraceProdDeployment
+    displayName: 'Dynatrace prod deployment'
+    jobs:
+      - deployment: DeployConfigurations
+        environment: dhp-platform-prod
+        displayName: "Deploy dynatrace configurations production"
+        strategy:
+          runOnce:
+            deploy:
+              steps:
+                - script: |
+                    curl -L https://github.com/dynatrace-oss/dynatrace-monitoring-as-code/releases/download/v1.6.0/monaco-linux-amd64 -o monaco
+                    chmod +x monaco
+                    mv monaco /usr/local/bin/
+                  displayName: Installing Monaco CLI
+                  workingDirectory: 'dynatrace'
+                - script: |
+                    monaco deploy --dry-run -e=environment.yaml -s=prod -p="prod"
+                  env:
+                    TOKEN_ENV_VAR: $(DT_API_TOKEN_PROD)
+                    NEW_CLI: 1
+                  displayName: Validate configurations
+                  workingDirectory: 'dynatrace'
+                - script: |
+                    monaco deploy -e=environment.yaml -s=prod -p="prod"
+                  env:
+                    TOKEN_ENV_VAR: $(DT_API_TOKEN_PROD)
+                    NEW_CLI: 1
+                  displayName: Deploy configurations
+                  workingDirectory: 'dynatrace'

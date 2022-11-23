@@ -1,0 +1,13 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`App.vue Matches Snapshot 1`] = `
+<div
+  class="nb-container-fluid"
+>
+  <transition-stub
+    name="slide-fade"
+  >
+    <router-view-stub />
+  </transition-stub>
+</div>
+`;

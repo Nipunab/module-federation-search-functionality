@@ -1,6 +1,6 @@
-# Humana Module Federation Template
+#  Module Federation Template
 
-This repository holds the skeleton templates for building HMF compliant VueJS applications. For a full list of examples, please reference [the official examples](https://github.com/module-federation/module-federation-examples).
+This repository holds the skeleton templates for building MF compliant VueJS applications. For a full list of examples, please reference [the official examples](https://github.com/module-federation/module-federation-examples).
 
 ## Getting Started
 
